@@ -67,7 +67,9 @@ namespace SudentPortalWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Student viewModel)
         {
-            var student = await context.Students.FindAsync(viewModel.Id);
+            var student = await context.Students
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Id == viewModel.Id);
             if (student is not null)
             {
                 context.Students.Remove(student);
